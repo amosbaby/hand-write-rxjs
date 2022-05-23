@@ -27,10 +27,10 @@ export class AMObservable<T> {
     }
     if (typeof observer === 'function') {
       // 如果传入的是一个方法，则将next替换成observer
-      this._subscribe({ ...defaultObserver, next: observer })
+      return this._subscribe({ ...defaultObserver, next: observer })
     } else {
 
-      this._subscribe({ ...defaultObserver, ...observer })
+      return this._subscribe({ ...defaultObserver, ...observer })
     }
   }
 }

@@ -3,5 +3,10 @@ export function of<T>(...args: T[]) {
   return new AMObservable((observer: AmObserver<any>) => {
     args.forEach(arg => observer.next(arg))
     observer.complete()
+
+    // 移除监听
+    return {
+      unsubscribe: () => { }
+    }
   })
 }

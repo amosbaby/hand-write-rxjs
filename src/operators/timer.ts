@@ -10,8 +10,13 @@ import { AMObservable } from "../observable";
 export function amTimer(delay: number) {
   return new AMObservable((observer: any) => {
     let index = 0
-    setTimeout(() => {
+    const timerTag = setTimeout(() => {
       observer.next(0)
     }, delay);
+
+    // 移除监听
+    return {
+      unsubscribe: () => { clearInterval(timerTag) }
+    }
   })
 }

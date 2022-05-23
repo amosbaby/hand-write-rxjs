@@ -10,5 +10,9 @@ export function amFromEvent(element: any, eventName: string) {
   return new AMObservable((observer: any) => {
     const handler = (e: any) => observer.next(e)
     element.addEventListener(eventName, handler)
+    // 移除监听
+    return {
+      unsubscribe: () => element.removeEventListener(eventName, handler)
+    }
   })
 }

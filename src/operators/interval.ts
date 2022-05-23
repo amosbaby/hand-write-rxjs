@@ -10,8 +10,12 @@ import { AMObservable } from "../observable";
 export function amInterval(duration: number) {
   return new AMObservable((observer: any) => {
     let index = 0
-    setInterval(() => {
+    const intervalTag = setInterval(() => {
       observer.next(index++)
     }, duration);
+    // 移除监听
+    return {
+      unsubscribe: () => { clearInterval(intervalTag) }
+    }
   })
 }
