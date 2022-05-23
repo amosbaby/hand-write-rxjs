@@ -7,7 +7,7 @@ import { AMObservable } from "../observable";
  * @returns 
  */
 
-export function amTimer(delay: number) {
+export function am_timer(delay: number) {
   return new AMObservable((observer: any) => {
     let index = 0
     const timerTag = setTimeout(() => {

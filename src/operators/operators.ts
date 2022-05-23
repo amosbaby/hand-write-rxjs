@@ -146,7 +146,6 @@ export function am_merge(...observables: any) {
           unsubscribe: () => { unsubscribeObj.unsubscribe() }
         }
       })
-
     })
   }
 }

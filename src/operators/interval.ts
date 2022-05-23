@@ -7,7 +7,7 @@ import { AMObservable } from "../observable";
  * @returns 
  */
 
-export function amInterval(duration: number) {
+export function am_interval(duration: number) {
   return new AMObservable((observer: any) => {
     let index = 0
     const intervalTag = setInterval(() => {

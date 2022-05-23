@@ -9,7 +9,7 @@ import { AMObservable } from "../observable";
  * @param params 
  * @returns 
  */
-export function amFrom(params: any) {
+export function am_from(params: any) {
   if (Array.isArray(params)) {
     return new AMObservable((observer: any) => {
       params.forEach(param => observer.next(param))
