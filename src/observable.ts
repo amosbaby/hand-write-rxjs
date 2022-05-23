@@ -33,6 +33,16 @@ export class AMObservable<T> {
       return this._subscribe({ ...defaultObserver, ...observer })
     }
   }
+
+  /**
+   * 通过operator将observable转化，并将结果返回
+   * @param operator 
+   * @returns 
+   */
+  pipe(operator: any) {
+    return operator(this)
+  }
+
   /**
    * 转化输出
    * @param fn 
@@ -40,7 +50,7 @@ export class AMObservable<T> {
    */
   map(fn: Function) {
     return new AMObservable((observer: any) => {
-      this.subscribe({
+      const unsubscribeObj = this.subscribe({
         // 将原有observable的三个方法处理转移到新observable的观察者上
         next: (value: any) => observer.next(fn(value)),
         error: (err: any) => observer.error(err),
@@ -48,14 +58,20 @@ export class AMObservable<T> {
       })
       // 移除监听
       return {
-        unsubscribe: () => { }
+        // 需要调用源observable的取消订阅，预防像interval、timer等异步处理
+        unsubscribe: () => { unsubscribeObj.unsubscribe() }
       }
     })
   }
 
+  /**
+   * 过滤observable输出
+   * @param fn 过滤函数，为true则发送，否则不发送
+   * @returns 
+   */
   filter(fn: Function) {
     return new AMObservable((observer: any) => {
-      this.subscribe({
+      const unsubscribeObj = this.subscribe({
         // 将原有observable的三个方法处理转移到新observable的观察者上
         next: (value: any) => fn(value) ? observer.next(value) : () => { },
         error: (err: any) => observer.error(err),
@@ -63,9 +79,9 @@ export class AMObservable<T> {
       })
       // 移除监听
       return {
-        unsubscribe: () => { }
+        // 需要调用源observable的取消订阅，预防像interval、timer等异步处理
+        unsubscribe: () => { unsubscribeObj.unsubscribe() }
       }
-
     })
   }
 }
