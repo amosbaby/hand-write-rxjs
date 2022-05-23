@@ -36,11 +36,12 @@ export class AMObservable<T> {
 
   /**
    * 通过operator将observable转化，并将结果返回
+   * 可以接收多个参数，后一个operator接收前一个的结果作为参数
    * @param operator 
    * @returns 
    */
-  pipe(operator: any) {
-    return operator(this)
+  pipe(...operators: any) {
+    return operators.reduce((prev: any, fn: any) => fn(prev), this)
   }
 
   /**

@@ -8,12 +8,19 @@ const source$ = interval(1000)
 // source$.subscribe(console.log)
 
 // const interval$ = amInterval(1000).filter((value: any) => value > 2).map((value: any) => value + 1000)
-const interval$ = amInterval(1000).pipe(am_filter((value: any) => value > 2)).pipe(am_map((value: any) => value + 1000))
+// 一个参数
+// const interval$ = amInterval(1000).pipe(am_filter((value: any) => value > 2)).pipe(am_map((value: any) => value + 1000))
+// 多个参数
+const interval$ = amInterval(1000)
+  .pipe(
+    am_filter((value: any) => value > 2),
+    am_map((value: any) => value + 1000)
+  )
 const subscribe = interval$.subscribe(console.log)
 
 setTimeout(() => {
   subscribe.unsubscribe()
-}, 10000);
+}, 5500);
 
 
 // const timer$ = amTimer(1000)
