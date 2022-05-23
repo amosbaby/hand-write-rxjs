@@ -7,11 +7,11 @@ import { AMObservable } from "../observable";
  * @returns 
  */
 
-export function amInterval(delay: number) {
+export function amInterval(duration: number) {
   return new AMObservable((observer: any) => {
     let index = 0
     setInterval(() => {
       observer.next(index++)
-    }, delay);
+    }, duration);
   })
 }
