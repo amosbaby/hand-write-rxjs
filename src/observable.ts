@@ -1,3 +1,4 @@
+
 /**
  * Observable手写实现
  */
@@ -29,9 +30,43 @@ export class AMObservable<T> {
       // 如果传入的是一个方法，则将next替换成observer
       return this._subscribe({ ...defaultObserver, next: observer })
     } else {
-
       return this._subscribe({ ...defaultObserver, ...observer })
     }
+  }
+  /**
+   * 转化输出
+   * @param fn 
+   * @returns 
+   */
+  map(fn: Function) {
+    return new AMObservable((observer: any) => {
+      this.subscribe({
+        // 将原有observable的三个方法处理转移到新observable的观察者上
+        next: (value: any) => observer.next(fn(value)),
+        error: (err: any) => observer.error(err),
+        complete: () => observer.complete()
+      })
+      // 移除监听
+      return {
+        unsubscribe: () => { }
+      }
+    })
+  }
+
+  filter(fn: Function) {
+    return new AMObservable((observer: any) => {
+      this.subscribe({
+        // 将原有observable的三个方法处理转移到新observable的观察者上
+        next: (value: any) => fn(value) ? observer.next(value) : () => { },
+        error: (err: any) => observer.error(err),
+        complete: () => observer.complete()
+      })
+      // 移除监听
+      return {
+        unsubscribe: () => { }
+      }
+
+    })
   }
 }
 

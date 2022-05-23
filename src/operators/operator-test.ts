@@ -6,12 +6,12 @@ import { amTimer } from "./timer";
 // const source$ = interval(1000)
 // source$.subscribe(console.log)
 
-const interval$ = amInterval(1000)
+const interval$ = amInterval(1000).filter((value: any) => value > 2).map((value: any) => value + 1000)
 const subscribe = interval$.subscribe(console.log)
 
 setTimeout(() => {
   subscribe.unsubscribe()
-}, 3000);
+}, 10000);
 
 
 // const timer$ = amTimer(1000)
